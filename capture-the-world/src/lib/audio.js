@@ -1,7 +1,6 @@
 export const createBlobURL = (base64AudioData) => {
   // 1. 解码base64
   const binaryString = atob(base64AudioData);
-  console.log("rd ~ createBlobURL ~ binaryString:", binaryString);
   // 2. 转化Unicode 编码值放入数组中
   const arrayBuffer = [];
   for (var offect = 0; offect < binaryString.length; offect++) {
@@ -9,7 +8,7 @@ export const createBlobURL = (base64AudioData) => {
   }
   // 3.生成arrayBuffer 对象
   const arrayBuffer8 = new Uint8Array(arrayBuffer);
-  const blob = new Blob([arrayBuffer8], { type: "audio/mp3" })
+  const blob = new Blob([arrayBuffer8], { type: "audio/mpeg" });
   // 4.生成blob url
   const blobUrl = URL.createObjectURL(blob);
   return blobUrl;

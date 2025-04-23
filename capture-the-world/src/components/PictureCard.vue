@@ -31,8 +31,13 @@ const updateImageData = async (event) => {
 }
 
 const playAudio = () => {
-  const audio = new Audio(props.audio)
-  audio.play()
+  try {
+    const audio = new Audio(props.audio)
+    audio.play()
+  } catch (error) {
+    alert('播放失败:', JSON.stringify(error));
+  }
+  
 }
 </script>
 
