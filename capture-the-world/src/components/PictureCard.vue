@@ -30,14 +30,64 @@ const updateImageData = async (event) => {
   })
 }
 
-const playAudio = () => {
+const audioElement = ref(null);
+const isPlaying = ref(false);
+
+const playAudio = async () => {
   try {
-    const audio = new Audio(props.audio)
-    audio.play()
+    console.log('开始播放音频:', props.audio);
+    
+    if (!audioElement.value) {
+      audioElement.value = new Audio();
+      audioElement.value.src = props.audio;
+      
+      // 添加音频事件监听
+      audioElement.value.addEventListener('error', (e) => {
+        console.error('音频加载错误:', e);
+        const error = e.target.error;
+        let errorMessage = '未知错误';
+        
+        switch (error.code) {
+          case MediaError.MEDIA_ERR_ABORTED:
+            errorMessage = '播放被中止';
+            break;
+          case MediaError.MEDIA_ERR_NETWORK:
+            errorMessage = '网络错误';
+            break;
+          case MediaError.MEDIA_ERR_DECODE:
+            errorMessage = '解码错误';
+            break;
+          case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            errorMessage = '音频格式不支持';
+            break;
+        }
+        
+        alert(`音频错误: ${errorMessage}`);
+      });
+    }
+
+    try {
+      console.log('尝试播放音频');
+      const playPromise = audioElement.value.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error('播放Promise错误:', error);
+          if (error.name === 'NotAllowedError') {
+            alert('浏览器阻止了自动播放，请再次点击播放按钮');
+          } else {
+            alert(`播放失败: ${error.message}`);
+          }
+        });
+      }
+    } catch (playError) {
+      console.error('播放执行错误:', playError);
+      alert(`播放执行错误: ${playError.message}`);
+    }
   } catch (error) {
-    alert('播放失败:', JSON.stringify(error));
+    console.error('音频总体错误:', error);
+    alert(`音频错误: ${error.message}`);
   }
-  
 }
 </script>
 
