@@ -36,7 +36,7 @@ export const generateAudio = async (text) => {
     },
     audio: {
       voice_type: voiceName,
-      encoding: "ogg_opus",
+      encoding: "mp3_opus",
       compression_rate: 1,
       rate: 24000,
       speed_ratio: 1.0,
