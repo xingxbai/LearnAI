@@ -8,7 +8,7 @@ export const createBlobURL = (base64AudioData) => {
   }
   // 3.生成arrayBuffer 对象
   const arrayBuffer8 = new Uint8Array(arrayBuffer);
-  const blob = new Blob([arrayBuffer8], { type: "audio/mpeg" });
+  const blob = new Blob([arrayBuffer8], { type: "audio/mp3" });
   // 4.生成blob url
   const blobUrl = URL.createObjectURL(blob);
   return blobUrl;
