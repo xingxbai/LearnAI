@@ -126,13 +126,18 @@ const playAudio = async () => {
 .word {
   margin-top: 20px;
   font-size: 16px;
+  text-align: center;
   color: rgb(255,255,255);
 }
 .playAudio {
   margin-top: 16px;
+  font-size: 20px;
+  text-align: center;
 }
 
 .playAudio img {
   cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
 </style>
