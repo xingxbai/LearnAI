@@ -1,13 +1,28 @@
 <script setup>
 import { ref } from 'vue';
 
+const voiceTypeMap = {
+  "zh_female_wanqudashu_moon_bigtts": "湾区大叔",
+  "zh_female_daimengchuanmei_moon_bigtts": "呆萌川妹",
+  // "zh_female_guozhoudege_moon_bigtts": "广州德哥",
+  // "zh_female_beijingxiaoye_moon_bigtts": "北京小爷",
+  "zh_male_shaonianzixin_moon_bigtts": "少年梓辛",
+  "zh_female_meilinvyou_moon_bigtts": "魅力女友",
+  "zh_male_shenyeboke_moon_bigtts": "深夜播客",
+  "zh_female_sajiaonvyou_moon_bigtts": "柔美女友",
+  "zh_female_yuanqinvyou_moon_bigtts": "撒娇学妹",
+  // "zh_female_haoyuxiaoge_moon_bigtts": "浩宇小哥",
+}
+
+
 const props = defineProps({
   word: String,
-  audio: String
+  audio: String,
 })
-const emit = defineEmits(['updateImage']);
+const emit = defineEmits(['updateImage', 'updateAudio']);
 
 const imgPreview = ref('https://res.bearbobo.com/resource/upload/W44yyxvl/upload-ih56twxirei.png');
+const voiceType = ref("zh_female_wanqudashu_moon_bigtts")
 
 const updateImageData = async (event) => {
   const file = event.target.files[0];
@@ -81,6 +96,11 @@ const playAudio = async () => {
     audioElement.value = null;
   }
 }
+const handleChangeVoice = async (event) => {
+  const value = event.target.value;
+  voiceType.value = value;
+  emit('updateAudio', null, voiceType.value)
+}
 </script>
 
 <template>
@@ -90,9 +110,15 @@ const playAudio = async () => {
       <img :src="imgPreview" alt="preview" />
     </label>
     <div class="word">{{ props.word }}</div>
-    <div v-if="props.audio" class="playAudio" @click="playAudio">
-        <img width="20px" src="https://res.bearbobo.com/resource/upload/Omq2HFs8/playA-3iob5qyckpa.png" alt="logo" />
+    <div class="img-wrapper">
+      <select @change="handleChangeVoice">
+        <option v-for="(value, key) in voiceTypeMap" :value="key">{{ value }}</option>
+      </select>
+      <div v-if="props.audio" class="playAudio" @click="playAudio">
+          <img width="20px" src="https://res.bearbobo.com/resource/upload/Omq2HFs8/playA-3iob5qyckpa.png" alt="logo" />
+      </div>
     </div>
+   
   </div>
 </template>
 
@@ -108,6 +134,7 @@ const playAudio = async () => {
   box-shadow: rgb(63,38,21) 0 3px 0px 0;
   background-color: rgb(105,78,62);
   box-sizing: border-box;
+  text-align: center;
 }
 .upload {
   width: 160px;
@@ -130,7 +157,6 @@ const playAudio = async () => {
   color: rgb(255,255,255);
 }
 .playAudio {
-  margin-top: 16px;
   font-size: 20px;
   text-align: center;
 }

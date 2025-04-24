@@ -13,7 +13,10 @@ export const createBlobURL = (base64AudioData) => {
   const blobUrl = URL.createObjectURL(blob);
   return blobUrl;
 };
-export const generateAudio = async (text) => {
+export const generateAudio = async (
+  text,
+  voiceType = "zh_female_wanqudashu_moon_bigtts"
+) => {
   const token = import.meta.env.VITE_AUDIO_ACCESS_TOKEN;
   const appId = import.meta.env.VITE_AUDIO_APP_ID;
   const clusterId = import.meta.env.VITE_AUDIO_CLUSTER_ID;
@@ -35,7 +38,7 @@ export const generateAudio = async (text) => {
       uid: "bearbobo",
     },
     audio: {
-      voice_type: voiceName,
+      voice_type: voiceType,
       encoding: "mp3",
       compression_rate: 1,
       rate: 24000,
@@ -43,7 +46,7 @@ export const generateAudio = async (text) => {
       volume_ratio: 1.0,
       pitch_ratio: 1.0,
       emotion: "happy",
-      language: 'cn',
+      language: "cn",
     },
     request: {
       reqid: Math.random().toString(36).substring(7),

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { generateAudio } from './lib/audio'
 import PictureCard from './components/PictureCard.vue';
 
+
 const userPrompt = `
 分析图片内容，找出最能描述图片的一个英文单词，尽量选择更简单的A1~A2的词汇。
 
@@ -69,12 +70,15 @@ const update = async (imageData) => {
   explainations.value = replyData.explaination.split('\n').filter((item) => item !== '');
   expReply.value = replyData.explaination_replys;
 
-  const audioUrl = await audioRequest(replyData.representative_word)
-  audio.value = audioUrl
+  await audioRequest(replyData.representative_word)
 }
 
-const audioRequest = async (word) => {
-  return await generateAudio(word)
+const audioRequest = async (text, voiceType = "zh_female_wanqudashu_moon_bigtts") => {
+  let tmpWord = text;
+  if (!text) {
+    tmpWord = word.value;
+  }
+  audio.value = await generateAudio(tmpWord, voiceType)
 }
 const submit = (imageData) => {
   update(imageData)
@@ -83,7 +87,7 @@ const submit = (imageData) => {
 
 <template>
   <div class="container">
-    <PictureCard @update-image="submit" :word="word" :audio="audio" />
+    <PictureCard @update-image="submit" :word="word" :audio="audio" :voiceTypeMap="voiceTypeMap" @update-audio="audioRequest"/>
     <div class="output">
       <div>{{ sentence }}</div>
       <div class="details">
