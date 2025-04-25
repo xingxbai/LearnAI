@@ -21,6 +21,7 @@ const word = ref("请上传图片")
 const sentence = ref("")
 const explainations = ref([])
 const expReply = ref([])
+const loading = ref(false)
 
 const detailExpand = ref(false);
 
@@ -81,9 +82,15 @@ const audioRequest = async (text, voiceType) => {
   audio.value = await generateAudio(tmpWord, voiceType)
 }
 const audioPlay = async (text) => {
+  if (loading.value) {
+    alert('正在生成音频，请稍后再试...')
+    return;
+  }
+  loading.value = true;
   await audioRequest(text)
   const audioElement = new Audio(audio.value);
   audioElement.play();
+  loading.value = false;
 }
 const submit = (imageData) => {
   update(imageData)
