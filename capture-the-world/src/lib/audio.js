@@ -1,5 +1,5 @@
 export const createBlobURL = (base64AudioData) => {
-  // 1. 解码base64
+  // 1. 将其base64解码为二进制字符串
   const binaryString = atob(base64AudioData);
   // 2. 转化Unicode 编码值放入数组中
   const arrayBuffer = [];
@@ -8,6 +8,7 @@ export const createBlobURL = (base64AudioData) => {
   }
   // 3.生成arrayBuffer 对象
   const arrayBuffer8 = new Uint8Array(arrayBuffer);
+  console.log(1111, arrayBuffer, arrayBuffer8);
   const blob = new Blob([arrayBuffer8], { type: "audio/mp3" });
   // 4.生成blob url
   const blobUrl = URL.createObjectURL(blob);
@@ -20,7 +21,6 @@ export const generateAudio = async (
   const token = import.meta.env.VITE_AUDIO_ACCESS_TOKEN;
   const appId = import.meta.env.VITE_AUDIO_APP_ID;
   const clusterId = import.meta.env.VITE_AUDIO_CLUSTER_ID;
-  const voiceName = import.meta.env.VITE_AUDIO_VOICE_NAME;
 
   const endpoint = "/tts/api/v1/tts";
   const headers = {

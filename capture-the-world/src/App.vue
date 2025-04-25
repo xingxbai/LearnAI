@@ -73,12 +73,17 @@ const update = async (imageData) => {
   await audioRequest(replyData.representative_word)
 }
 
-const audioRequest = async (text, voiceType = "zh_female_wanqudashu_moon_bigtts") => {
+const audioRequest = async (text, voiceType) => {
   let tmpWord = text;
   if (!text) {
     tmpWord = word.value;
   }
   audio.value = await generateAudio(tmpWord, voiceType)
+}
+const audioPlay = async (text) => {
+  await audioRequest(text)
+  const audioElement = new Audio(audio.value);
+  audioElement.play();
 }
 const submit = (imageData) => {
   update(imageData)
@@ -90,6 +95,15 @@ const submit = (imageData) => {
     <PictureCard @update-image="submit" :word="word" :audio="audio" :voiceTypeMap="voiceTypeMap" @update-audio="audioRequest"/>
     <div class="output">
       <div>{{ sentence }}</div>
+      <div>
+        <p style="color: red;">点击下面的段落可以朗读英语</p>
+        <div class="explaination" v-for="item in explainations">
+          <p @click="()=>audioPlay(item)">{{ item }}</p>
+        </div>
+        <div class="reply" v-for="item in expReply">
+          <p @click="()=>audioPlay(item)">{{ item }}</p>
+        </div>
+      </div>
       <div class="details">
         <button @click="detailExpand = !detailExpand">Talk about it</button>
         <div v-if="!detailExpand" class="fold"></div>
@@ -190,6 +204,7 @@ button {
 .expand .explaination {
   color: black;
   font-weight: normal;
+  font-size: 20px;
 }
 
 .expand .explaination p {
