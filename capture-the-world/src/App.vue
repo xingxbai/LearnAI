@@ -79,7 +79,7 @@ const audioRequest = async (text, voiceType) => {
   if (!text) {
     tmpWord = word.value;
   }
-  audio.value = await generateAudio(tmpWord, voiceType)
+  audio.value = await generateAudio("我今早的体重121.6斤。回家你也把我管一管，让我少吃点" || tmpWord, voiceType)
 }
 const audioPlay = async (text) => {
   if (loading.value) {
@@ -87,7 +87,7 @@ const audioPlay = async (text) => {
     return;
   }
   loading.value = true;
-  await audioRequest("白日依山尽，黄河入海流。欲穷千里目，更上一层楼。")
+  await audioRequest(text)
   const audioElement = new Audio(audio.value);
   audioElement.play();
   loading.value = false;

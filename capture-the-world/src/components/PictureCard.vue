@@ -11,6 +11,10 @@ const voiceTypeMap = {
   "zh_female_qingxinnvsheng_mars_bigtts": "清新女声",
   "zh_male_changtianyi_mars_bigtts": "悬疑解说",
   "zh_female_popo_mars_bigtts": "婆婆", 
+  "zh_male_silang_mars_bigtts": "四郎",
+  "zh_female_wuzetian_mars_bigtts": "武则天",
+  "zh_female_shaoergushi_mars_bigtts": "少儿故事",
+  "zh_female_qiaopinvsheng_mars_bigtts": "俏皮女声",
 }
 const voiceTypeMap1 = {
   "zh_female_wanqudashu_moon_bigtts": "湾区大叔",
@@ -60,9 +64,7 @@ const audioElement = ref(null);
 const isPlaying = ref(false);
 
 const playAudio = async () => {
-  try {
-    console.log('开始播放音频:', props.audio);
-    
+  try {    
     if (!audioElement.value) {
       // 创建音频上下文
       const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -107,6 +109,21 @@ const playAudio = async () => {
     audioElement.value = null;
   }
 }
+const donwloadAudio = async () => {
+  const response = await fetch(props.audio);
+  const blob = await response.blob();
+
+  const downloadUrl = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = downloadUrl;
+  link.download = 'audio.mp3';
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(downloadUrl)
+}
 const handleChangeVoice = async (event) => {
   const value = event.target.value;
   voiceType.value = value;
@@ -128,6 +145,7 @@ const handleChangeVoice = async (event) => {
       <div v-if="props.audio" class="playAudio" @click="playAudio">
           <img width="20px" src="https://res.bearbobo.com/resource/upload/Omq2HFs8/playA-3iob5qyckpa.png" alt="logo" />
       </div>
+      <div @click="donwloadAudio">下载音频文件</div>
     </div>
    
   </div>
