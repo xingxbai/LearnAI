@@ -87,7 +87,7 @@ const audioPlay = async (text) => {
     return;
   }
   loading.value = true;
-  await audioRequest(text)
+  await audioRequest("白日依山尽，黄河入海流。欲穷千里目，更上一层楼。")
   const audioElement = new Audio(audio.value);
   audioElement.play();
   loading.value = false;

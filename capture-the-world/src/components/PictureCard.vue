@@ -2,6 +2,17 @@
 import { ref } from 'vue';
 
 const voiceTypeMap = {
+  "zh_male_tiancaitongsheng_mars_bigtts": "天才童声",
+  "zh_male_naiqimengwa_mars_bigtts": "奶气萌娃",
+  "zh_male_sunwukong_mars_bigtts": "猴哥",
+  "zh_male_xionger_mars_bigtts": "熊二",
+  "zh_female_peiqi_mars_bigtts": "佩奇猪",
+  "zh_female_zhixingnvsheng_mars_bigtts": "知性女声",
+  "zh_female_qingxinnvsheng_mars_bigtts": "清新女声",
+  "zh_male_changtianyi_mars_bigtts": "悬疑解说",
+  "zh_female_popo_mars_bigtts": "婆婆", 
+}
+const voiceTypeMap1 = {
   "zh_female_wanqudashu_moon_bigtts": "湾区大叔",
   "zh_female_daimengchuanmei_moon_bigtts": "呆萌川妹",
   // "zh_female_guozhoudege_moon_bigtts": "广州德哥",
